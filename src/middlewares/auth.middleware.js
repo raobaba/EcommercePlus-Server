@@ -3,32 +3,25 @@ const User = require("../models/user.model");
 const ErrorHandler = require("../utils/errorHandler");
 const asyncErrorHandler = require("./asyncErrorHandler");
 
-exports.isAuthenticatedUser = asyncErrorHandler(async (req, res, next) => {
+const isAuthenticatedUser = asyncErrorHandler(async (req, res, next) => {
   const token = req.header("Authorization");
-  // console.log("authentication token", token);
+
   if (!token) {
-    return res.status(401).json({ error: "Authorization token missing" });
+    return next(new ErrorHandler("Authorization token missing", 401));
   }
+
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET); // Handle Bearer token prefix
     const user = await User.findById(decoded.id);
     if (!user) {
-      return res.status(401).json({ error: "Invalid token" });
+      return next(new ErrorHandler("Invalid token", 401));
     }
     req.user = user;
+    next();
   } catch (error) {
-    return res.status(401).json({ error: "Invalid token" });
+    return next(new ErrorHandler("Invalid token", 401));
   }
-  next();
 });
 
-exports.authorizeRoles = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return next(
-        new ErrorHandler(`Role: ${req.user.role} is not allowed`, 403)
-      );
-    }
-    next();
-  };
-};
+
+module.exports = isAuthenticatedUser
