@@ -25,19 +25,22 @@ const loginUser = asyncErrorHandler(async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return next(new ErrorHandler("Please Enter Email And Password", 400));
+        const error = new ErrorHandler("Please Enter Email And Password", 400);
+        return error.sendError(res);
     }
 
     const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-        return next(new ErrorHandler("Invalid Email", 401));
+        const error = new ErrorHandler("Invalid Email", 401);
+        return error.sendError(res);
     }
 
     const isPasswordMatched = await user.comparePassword(password);
 
     if (!isPasswordMatched) {
-        return next(new ErrorHandler("Incorrect Password", 401));
+        const error = new ErrorHandler("Incorrect Password", 401);
+        return error.sendError(res);
     }
 
     sendToken(user, 201, res);

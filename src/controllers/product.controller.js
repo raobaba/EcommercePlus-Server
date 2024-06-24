@@ -24,7 +24,8 @@ const getAllProducts = asyncErrorHandler(async (req, res, next) => {
 const getProductById = asyncErrorHandler(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
     if (!product) {
-        return next(new ErrorHandler("Product not found", 404));
+        const error = new ErrorHandler("Product not found", 404);
+        return error.sendError(res);
     }
     res.status(200).json({
         success: true,
@@ -36,7 +37,8 @@ const getProductById = asyncErrorHandler(async (req, res, next) => {
 const updateProductById = asyncErrorHandler(async (req, res, next) => {
     let product = await Product.findById(req.params.id);
     if (!product) {
-        return next(new ErrorHandler("Product not found", 404));
+        const error = new ErrorHandler("Product not found", 404);
+        return error.sendError(res);
     }
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
@@ -51,7 +53,8 @@ const updateProductById = asyncErrorHandler(async (req, res, next) => {
 const deleteProductById = asyncErrorHandler(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
     if (!product) {
-        return next(new ErrorHandler("Product not found", 404));
+        const error = new ErrorHandler("Product not found", 404);
+        return error.sendError(res);
     }
     await product.deleteOne();
     res.status(200).json({

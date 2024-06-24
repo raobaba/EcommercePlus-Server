@@ -11,17 +11,23 @@ const isAuthenticatedUser = asyncErrorHandler(async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET); // Handle Bearer token prefix
+    const decoded = jwt.verify(
+      token.replace("Bearer ", ""),
+      process.env.JWT_SECRET
+    ); // Handle Bearer token prefix
     const user = await User.findById(decoded.id);
     if (!user) {
       return next(new ErrorHandler("Invalid token", 401));
     }
-    req.user = user;
+    req.user = {
+      id: decoded.id,
+      name: decoded.name,
+    };
+
     next();
   } catch (error) {
     return next(new ErrorHandler("Invalid token", 401));
   }
 });
 
-
-module.exports = isAuthenticatedUser
+module.exports = isAuthenticatedUser;
