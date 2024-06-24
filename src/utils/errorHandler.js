@@ -5,6 +5,14 @@ class ErrorHandler extends Error {
 
         Error.captureStackTrace(this, this.constructor);
     }
+
+    sendError(res) {
+        res.status(this.statusCode).json({
+            success: false,
+            message: this.message,
+            statusCode: this.statusCode,
+        });
+    }
 }
 
 module.exports = ErrorHandler;

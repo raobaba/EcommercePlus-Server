@@ -6,10 +6,11 @@ const ErrorHandler = require("../utils/errorHandler");
 const registerUser = asyncErrorHandler(async (req, res, next) => {
     const { name, email, password } = req.body;
     const userExist = await User.findOne({ email });
-
     if (userExist) {
-        return next(new ErrorHandler("User with this email already exists", 400));
+        const error = new ErrorHandler("User with this email already exists", 400);
+        return error.sendError(res);
     }
+
 
     const user = await User.create({
         name,
