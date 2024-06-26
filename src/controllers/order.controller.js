@@ -1,7 +1,7 @@
-const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
-const Order = require('../models/order.model');
-const Product = require('../models/product.model');
-const ErrorHandler = require('../utils/errorHandler');
+const asyncErrorHandler = require("../middlewares/asyncErrorHandler");
+const Order = require("../models/order.model");
+const Product = require("../models/product.model");
+const ErrorHandler = require("../utils/errorHandler");
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -14,7 +14,7 @@ const addOrderItems = asyncErrorHandler(async (req, res, next) => {
     itemsPrice,
     taxPrice,
     shippingPrice,
-    totalPrice
+    totalPrice,
   } = req.body;
 
   const order = new Order({
@@ -25,14 +25,14 @@ const addOrderItems = asyncErrorHandler(async (req, res, next) => {
     itemsPrice,
     taxPrice,
     shippingPrice,
-    totalPrice
+    totalPrice,
   });
 
   const createdOrder = await order.save();
 
   res.status(201).json({
     success: true,
-    order: createdOrder
+    order: createdOrder,
   });
 });
 
@@ -40,15 +40,19 @@ const addOrderItems = asyncErrorHandler(async (req, res, next) => {
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncErrorHandler(async (req, res, next) => {
-  const order = await Order.findById(req.params.id).populate('user', 'name email');
+  const order = await Order.findById(req.params.id).populate(
+    "user",
+    "name email"
+  );
 
   if (!order) {
-    return next(new ErrorHandler('Order not found', 404));
+    const error = new ErrorHandler("Order not found", 404);
+    return error.sendError(res);
   }
 
   res.status(200).json({
     success: true,
-    order
+    order,
   });
 });
 
@@ -59,7 +63,8 @@ const updateOrderToPaid = asyncErrorHandler(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    return next(new ErrorHandler('Order not found', 404));
+    const error = new ErrorHandler("Order not found", 404);
+    return error.sendError(res);
   }
 
   order.isPaid = true;
@@ -67,15 +72,15 @@ const updateOrderToPaid = asyncErrorHandler(async (req, res, next) => {
   order.paymentResult = {
     id: req.body.id,
     status: req.body.status,
-    update_time: req.body.update_time,
-    email: req.body.payer.email
+    updateTime: req.body.updateTime,
+    emailAddress: req.body.emailAddress,
   };
 
   const updatedOrder = await order.save();
 
   res.status(200).json({
     success: true,
-    order: updatedOrder
+    order: updatedOrder,
   });
 });
 
@@ -86,7 +91,8 @@ const updateOrderToDelivered = asyncErrorHandler(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    return next(new ErrorHandler('Order not found', 404));
+    const error = new ErrorHandler("Order not found", 404);
+    return error.sendError(res);
   }
 
   order.isDelivered = true;
@@ -96,7 +102,7 @@ const updateOrderToDelivered = asyncErrorHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    order: updatedOrder
+    order: updatedOrder,
   });
 });
 
@@ -105,10 +111,13 @@ const updateOrderToDelivered = asyncErrorHandler(async (req, res, next) => {
 // @access  Private
 const getMyOrders = asyncErrorHandler(async (req, res, next) => {
   const orders = await Order.find({ user: req.user._id });
-
+  if (!orders) {
+    const error = new ErrorHandler("Order not found", 404);
+    return error.sendError(res);
+  }
   res.status(200).json({
     success: true,
-    orders
+    orders,
   });
 });
 
@@ -116,11 +125,14 @@ const getMyOrders = asyncErrorHandler(async (req, res, next) => {
 // @route   GET /api/orders
 // @access  Private/Admin
 const getOrders = asyncErrorHandler(async (req, res, next) => {
-  const orders = await Order.find({}).populate('user', 'id name');
-
+  const orders = await Order.find({}).populate("user", "id name");
+  if (!order) {
+    const error = new ErrorHandler("Order not found", 404);
+    return error.sendError(res);
+  }
   res.status(200).json({
     success: true,
-    orders
+    orders,
   });
 });
 
@@ -130,5 +142,5 @@ module.exports = {
   updateOrderToPaid,
   updateOrderToDelivered,
   getMyOrders,
-  getOrders
+  getOrders,
 };
