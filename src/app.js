@@ -19,6 +19,45 @@ const limiter = rateLimit({
 // Apply to all requests
 app.use(limiter);
 
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Book Management by DigitalPaani',
+      version: '1.0.0',
+    },
+    servers:[
+      {
+         url:'http://localhost:8000'
+      },
+      {
+        url:"https://digitalpaani-book-management.onrender.com"
+      }
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+  },
+  apis: ['./src/routes/*.js'],
+};
+
+const openapiSpecification = swaggerJsdoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

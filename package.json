@@ -21,7 +21,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.3",
     "nock": "^13.5.4",
-    "stripe": "^16.0.0"
+    "stripe": "^16.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "chai": "^5.1.1",
