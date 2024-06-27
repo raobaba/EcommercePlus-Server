@@ -26,7 +26,7 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Book Management by DigitalPaani',
+      title: 'E-Commerce Management by MyIndia',
       version: '1.0.0',
     },
     servers:[
