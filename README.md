@@ -1,25 +1,27 @@
 # Project Title
-Weather_app & Book_Management_app
+EcommercePlus
 ## Swagger-OPENAPI-Documentation
 
-[Swagger Documentation](https://digitalpaani-book-management.onrender.com/api-docs/)
+[Swagger Documentation](https://ecommerceplus-server.onrender.com/api-docs)
+
+[postman API](https://universal-star-350473.postman.co/workspace/My-Workspace~44391309-b21a-4654-829d-81bea0efc5df/collection/30678801-8badaeec-7b06-4ad8-a555-a02900bab44c?action=share&creator=30678801)
 
 ## Introduction
 
 ### Book Management API
-- Developed a book management API using Node.js.
-- Features user authentication and authorization.
-- Provides CRUD operations for book entries.
-- Offers filtering by author and publication year.
-- Includes clear API documentation.
-- Implements basic security measures for input validation.
+- Develop scalable e-commerce APIs using Node.js and Express.
+- Integrate MongoDB for managing users, products, orders, and payments.
+- Implement JWT (JSON Web Tokens) for authentication and authorization.
+- Create mock integrations for payment gateways (e.g., Stripe, PayPal) and logistics APIs.
+- Ensure SSL/TLS for secure communication and implement essential security practices.
+- Optimize API performance for handling high volumes of requests.
 
 ## Project Type
  Backend 
 
 ## Deplolyed App
 ```bash
-Backend: https://digitalpaani-book-management.onrender.com/
+Backend: https://ecommerceplus-server.onrender.com/
 Database: mongodb+srv://YOUR_USERNAME:YUOR_PASSWORD@cluster0.vvtoxbl.mongodb.net/DigitalPaani?retryWrites=true&w=majority
 ```
 ## Postman API
@@ -36,13 +38,19 @@ DigitalPaani-Assignment/
    │  │  └─ db.js
    │  ├─ models/
    │  │  └─ user.model.js
-   │  │  └─ book.model.js
+   │  │  └─ product.model.js
+   │  │  └─ order.model.js
+   │  │  └─ payment.model.js
    │  ├─ controllers/
    │  │  └─ user.contorller.js
-   │  │  └─ book.controller.js
+   │  │  └─ product.controller.js
+   │  │  └─ order.contorller.js
+   │  │  └─ payment.controller.js
    │  ├─ routes/
    │  │  └─ user.route.js
-   │  │  └─ book.route.js
+   │  │  └─ product.route.js
+   │  │  └─ order.route.js
+   │  │  └─ payment.route.js
    │  ├─ app.js
    │  └─ index.js
  
