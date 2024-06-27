@@ -2,7 +2,8 @@
 EcommercePlus
 ## Swagger-OPENAPI-Documentation
 
-[Swagger Documentation](https://ecommerceplus-server.onrender.com/)
+[Swagger Documentation](https://ecommerceplus-server.onrender.com/api-docs)
+
 [postman API](https://universal-star-350473.postman.co/workspace/My-Workspace~44391309-b21a-4654-829d-81bea0efc5df/collection/30678801-8badaeec-7b06-4ad8-a555-a02900bab44c?action=share&creator=30678801)
 
 ## Introduction
